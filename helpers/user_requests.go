@@ -12,9 +12,4 @@ type GeneratedToken struct {
 	Token string `json:"token"`
 }
 
-type AccountDetails struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Phone    string `json:"phone"`
-	Password string `json:"password"`
-}
+

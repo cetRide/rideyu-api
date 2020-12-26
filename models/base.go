@@ -28,7 +28,10 @@ func InitDB(dbUrI string) {
 		fmt.Print(err)
 		panic(err)
 	}
-	connection.AutoMigrate(&User{})
+
+	models := ReturnListOfTables()
+
+	connection.AutoMigrate(models...)
 	database = connection
 }
 

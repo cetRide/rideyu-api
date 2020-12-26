@@ -9,8 +9,15 @@ import (
 	models "github.com/cetRide/rideyu-api/services/users"
 )
 
+type AccountDetails struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+	Password string `json:"password"`
+}
+
 func Register(w http.ResponseWriter, r *http.Request) {
-	user := &data.AccountDetails{}
+	user := &AccountDetails{}
 	err := json.NewDecoder(r.Body).Decode(user)
 	if err != nil {
 		u.Respond(w, u.Message(false, "Invalid request"))
@@ -22,7 +29,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
-	user := &data.AccountDetails{}
+	user := &AccountDetails{}
 	err := json.NewDecoder(r.Body).Decode(user)
 	if err != nil {
 		u.Respond(w, u.Message(false, "Invalid request"))
