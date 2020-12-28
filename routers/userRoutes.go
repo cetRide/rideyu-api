@@ -6,7 +6,7 @@ import (
 )
 
 func GetUserRoutes(r *mux.Router) {
-	r.HandleFunc("/account/login", controllers.Login).Methods("GET")
+	r.HandleFunc("/account/login", controllers.Login).Methods("POST")
 	r.HandleFunc("/account/register", controllers.Register).Methods("POST")
 	r.HandleFunc("/account/logout", controllers.Logout).Methods("GET")
 }
