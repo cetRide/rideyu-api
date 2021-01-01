@@ -41,7 +41,15 @@ type Like struct {
 	Category string
 }
 
+type CommentReply struct {
+	Base
+	CommentID uint64
+	UserID    uint64
+	Reply     string
+}
+
 func ReturnListOfTables() []interface{} {
 	return []interface{}{
-		&User{}, &Post{}, &PostMedia{}, &Comment{}, &Like{}}
+		&User{}, &Post{}, &PostMedia{}, &Comment{},
+		&CommentReply{}, &Like{}}
 }

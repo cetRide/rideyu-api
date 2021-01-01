@@ -10,19 +10,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type PostData struct {
-	Description string `json:"description"`
+type RequestData struct {
+	Comment string `json:"comment"`
+	Reply   string `json:"reply"`
 }
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
-	data := &PostData{}
-	err := json.NewDecoder(r.Body).Decode(data)
-	if err != nil {
-		apihelpers.Respond(w, apihelpers.Message(false, "Invalid request"))
-		return
-	}
-
-	response := post.CreatePost(data.Description, helpers.GetSession(r))
+	user := helpers.GetSession(r)
+	postData := helpers.UploadFiles(w, r, user, "post")
+	response := post.CreatePost(postData, user)
 	apihelpers.Respond(w, response)
 }
 
@@ -50,5 +46,31 @@ func Like(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 	category := params["category"]
 	response := post.Like(id, category, helpers.GetSession(r))
+	apihelpers.Respond(w, response)
+}
+
+func Comment(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	comment := &RequestData{}
+	post_id := params["post_id"]
+	err := json.NewDecoder(r.Body).Decode(comment)
+	if err != nil {
+		apihelpers.Respond(w, apihelpers.Message(false, "Invalid request"))
+		return
+	}
+	response := post.CreateComment(helpers.GetSession(r), post_id, comment.Comment)
+	apihelpers.Respond(w, response)
+}
+
+func ReplyToComment(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	reply := &RequestData{}
+	comment_id := params["comment_id"]
+	err := json.NewDecoder(r.Body).Decode(reply)
+	if err != nil {
+		apihelpers.Respond(w, apihelpers.Message(false, "Invalid request"))
+		return
+	}
+	response := post.CreateReply(helpers.GetSession(r), comment_id, reply.Reply)
 	apihelpers.Respond(w, response)
 }

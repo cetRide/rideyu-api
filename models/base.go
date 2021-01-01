@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 
 	u "github.com/cetRide/rideyu-api/helpers"
@@ -25,7 +24,6 @@ func (base *Base) BeforeCreate(scope *gorm.Scope) error {
 func InitDB(dbUrI string) {
 	connection, err := gorm.Open("postgres", dbUrI)
 	if err != nil {
-		fmt.Print(err)
 		panic(err)
 	}
 
